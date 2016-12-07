@@ -10,8 +10,17 @@ module.exports = {
 	getFamily:getFamily,
 	getFamilyByGender:getFamilyByGender,
 	getRestaurants:getRestaurants,
-	getRestaurantsByName:getRestaurantsByName
+	getRestaurantsByName:getRestaurantsByName,
+	updateName:updateName,
+	updateLocation:updateLocation,
+	addHobby:addHobby,
+	addOccupation:addOccupation,
+	addFamilyMember:addFamilyMember,
+	addRestaurant:addRestaurant
 }
+
+
+//	#	#	#	READ METHODS	#	#	#
 
 function getName(req, res, next) {
 	res.status(200).send(user.name);
@@ -84,4 +93,50 @@ function getRestaurantsByName(req,res,next) {
 			return rest.name === req.params.name;
 		})
 	)
+}
+
+//	#	#	#	WRITE METHODS	#	#	#	
+
+function updateName(req,res,next) {
+	user.name = req.params.name;
+	res.status(200).send(user.name);
+}
+
+function updateLocation(req,res,next) {
+	user.location = req.params.location;
+	res.status(200).send(user.location);
+}
+
+function addHobby(req,res,next) {
+	var newHobby = {
+		name: req.body.name,
+		type: req.body.type
+	}
+	user.hobbies.push(newHobby);
+	res.status(200).send(user.hobbies);
+}
+
+function addOccupation(req,res,next) {
+	user.occupations.push(req.body.occupation);
+	res.status(200).send(user.occupations);
+}
+
+function addFamilyMember(req,res,next) {
+	var newFam = {
+		name: 		req.body.name,
+		relation: 	req.body.relation,
+		gender: 	req.body.gender
+	}
+	user.family.push(newFam);
+	res.status(200).send(user.family);
+}
+
+function addRestaurant(req,res,next) {
+	var newRest = {
+		name: 	req.body.name,
+		type: 	req.body.type,
+		rating: req.body.rating
+	}
+	user.restaurants.push(newRest);
+	res.status(200).send(user.restaurants);
 }

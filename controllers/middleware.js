@@ -1,7 +1,14 @@
 module.exports = {
-	addHeaders:addHeaders
-
+	addHeaders:addHeaders,
+  generateId:generateId,
+  verifyId:verifyId
 }
+
+var skills = require("../skills.js")
+var index = skills.length;
+
+var _USERNAME = "dreadlord";
+var _PIN = "999";
 
 function addHeaders(req,res,next){
     res.status(200).set({
@@ -15,4 +22,18 @@ function addHeaders(req,res,next){
     });
 
     next();	
+}
+
+
+function generateId(req,res,next) {
+  req.index = index++;
+  next();
+}
+
+function verifyId(req,res,next) {
+  if(req.params.username === _USERNAME && req.params.pin === _PIN) {
+    next();
+  } else {
+    res.status(403).send("Access Denied");
+  }
 }
